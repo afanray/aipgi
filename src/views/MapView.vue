@@ -33,22 +33,22 @@ import {
         :name="`${geojson.properties.dusun}`"
       />
 
-      <l-geo-json
+      <!-- <l-geo-json
         v-for="(geojson, index) in sensus"
         :geojson="geojson"
         :key="index"
         layer-type="overlay"
         :name="`${geojson.properties.status}`"
-      />
+      /> -->
 
-      <l-geo-json
+      <!-- <l-geo-json
         :name="`Landuse`"
         v-if="show"
         :geojson="geojson"
         :options="options"
         layer-type="overlay"
         :options-style="styleFunction"
-      />
+      /> -->
 
       <l-geo-json
         :name="`Sebaran Bumil, Busui & Baduta`"
@@ -158,9 +158,11 @@ export default {
       }
       return (feature, layer) => {
         layer.bindTooltip(
-          "<div>Nama:" +
+          "<div>Nama: " +
             feature.properties.nama +
-            "</div><div>Luas: " +
+            "</div><div>Usia: " +
+            feature.properties.usia +
+            " Tahun</div><div>Status: " +
             feature.properties.status_ibu +
             "</div>",
           { permanent: false, sticky: true }

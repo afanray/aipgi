@@ -34,7 +34,24 @@ import {
       />
 
       <l-geo-json
+        v-for="(geojson, index) in sensus"
+        :geojson="geojson"
+        :key="index"
+        layer-type="overlay"
+        :name="`${geojson.properties.status}`"
+      />
+
+      <l-geo-json
         :name="`Landuse`"
+        v-if="show"
+        :geojson="geojson"
+        :options="options"
+        layer-type="overlay"
+        :options-style="styleFunction"
+      />
+
+      <l-geo-json
+        :name="`Sebaran Bumil, Busui & Baduta`"
         v-if="show"
         :geojson="geojson"
         :options="options"
@@ -81,8 +98,9 @@ export default {
       zoom: 15,
       center: [-6.585927895776775, 106.72623485423816],
       layerData: [],
+      sensus: [],
       geojson: null,
-      fillColor: "#0CF9E0",
+      fillColor: "#F05941",
       tileProviders: tileProviders,
       marker: latLng(-6.585927895776775, 106.72623485423816),
       timeout: undefined,
@@ -90,13 +108,13 @@ export default {
   },
   mounted() {
     this.timeout = setTimeout(this.loadSomeGeoJson, 1000);
+    this.timeout = setTimeout(this.loadSensusGeoJson, 1000);
   },
   beforeDestroy() {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
   },
-
   methods: {
     async loadSomeGeoJson() {
       const nextIndex = this.layerData.length;
@@ -143,16 +161,24 @@ export default {
           "<div>Nama:" +
             feature.properties.nama +
             "</div><div>Luas: " +
-            feature.properties.lus +
-            " Ha</div>",
+            feature.properties.status_ibu +
+            "</div>",
           { permanent: false, sticky: true }
         );
       };
     },
   },
+  // async created() {
+  //   this.loading = true;
+  //   const response = await fetch("/lu-neglasari.geojson");
+  //   const data = await response.json();
+  //   this.geojson = data;
+  //   this.loading = false;
+  // },
+
   async created() {
     this.loading = true;
-    const response = await fetch("/lu-neglasari.geojson");
+    const response = await fetch("/ddp-aipgi-2.geojson");
     const data = await response.json();
     this.geojson = data;
     this.loading = false;

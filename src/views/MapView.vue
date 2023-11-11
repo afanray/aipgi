@@ -30,7 +30,7 @@ import {
         :geojson="geojson"
         :key="index"
         layer-type="overlay"
-        :name="`Dusun ${index + 1}`"
+        :name="`${geojson.properties.dusun}`"
       />
 
       <l-geo-json
@@ -79,12 +79,12 @@ export default {
       show: true,
       enableTooltip: true,
       zoom: 15,
-      center: [-3.28561, 120.97431],
+      center: [-6.585927895776775, 106.72623485423816],
       layerData: [],
       geojson: null,
       fillColor: "#0CF9E0",
       tileProviders: tileProviders,
-      marker: latLng(-3.28561, 120.97431),
+      marker: latLng(-6.585927895776775, 106.72623485423816),
       timeout: undefined,
     };
   },
@@ -101,7 +101,7 @@ export default {
     async loadSomeGeoJson() {
       const nextIndex = this.layerData.length;
 
-      const response = await fetch("/ds_nyule.geojson");
+      const response = await fetch("/ds_neglasari.geojson");
       const data = await response.json();
 
       console.log(data);
@@ -143,7 +143,7 @@ export default {
           "<div>Nama:" +
             feature.properties.nama +
             "</div><div>Luas: " +
-            feature.properties.luas +
+            feature.properties.lus +
             " Ha</div>",
           { permanent: false, sticky: true }
         );
@@ -152,7 +152,7 @@ export default {
   },
   async created() {
     this.loading = true;
-    const response = await fetch("/lu_ds_nyule.geojson");
+    const response = await fetch("/lu-neglasari.geojson");
     const data = await response.json();
     this.geojson = data;
     this.loading = false;
